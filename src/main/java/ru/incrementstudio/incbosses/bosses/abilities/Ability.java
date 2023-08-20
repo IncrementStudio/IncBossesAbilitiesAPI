@@ -1,14 +1,13 @@
 package ru.incrementstudio.incbosses.bosses.abilities;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.LivingEntity;
-import ru.incrementstudio.incbosses.bosses.BossData;
-import ru.incrementstudio.incbosses.bosses.phases.PhaseData;
+import ru.incrementstudio.incbosses.bosses.Boss;
+import ru.incrementstudio.incbosses.bosses.phases.Phase;
 
 public interface Ability {
     Object getAbilityExtension();
-    BossData getBossData();
-    PhaseData getPhaseData();
+    Boss getBoss();
+    Phase getPhase();
     ConfigurationSection getConfig();
     boolean isActive();
     void stop();
