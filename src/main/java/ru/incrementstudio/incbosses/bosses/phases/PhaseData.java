@@ -1,17 +1,18 @@
 package ru.incrementstudio.incbosses.bosses.phases;
 
-import ru.incrementstudio.incbosses.bosses.abilities.Ability;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 import java.util.Map;
 
-public interface PhaseData {
-    String getName();
-    String getPhaseName();
-    Map<String, List<String>> getStartActions();
-    Map<String, List<String>> getPlayersActions();
-    double getPlayersActionsRange();
-    boolean isFlagChatStartNotification();
-    boolean isFlagClearEffectsOnEnd();
-    Map<String, TransitionData> getTransitions();
+public class PhaseData {
+    public PhaseData(FileConfiguration bossConfig, String name) { }
+    public String getName() { return null; }
+    public String getPhaseName() { return null; }
+    public Map<String, List<String>> getStartActions() { return null; }
+    public Map<String, List<String>> getPlayersActions() { return null; }
+    public double getPlayersActionsRange() { return 0; }
+    public boolean isFlagChatStartNotification() { return false; }
+    public boolean isFlagClearEffectsOnEnd() { return false; }
+    public Map<String, TransitionData> getTransitions() { return null; }
 }

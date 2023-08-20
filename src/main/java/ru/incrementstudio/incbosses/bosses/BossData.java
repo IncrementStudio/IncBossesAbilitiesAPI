@@ -14,31 +14,32 @@ import ru.incrementstudio.incbosses.bosses.phases.PhaseData;
 import java.util.List;
 import java.util.Map;
 
-public interface BossData {
-    BossData newIdentity();
-    String getName();
-    String getBossName();
-    String getDisplayName();
-    EntityType getEntityType();
-    double getHealth();
-    boolean isGlowing();
-    boolean isBaby();
-    BarColor getBarColor();
-    BarStyle getBarStyle();
-    List<BarFlag> getBarFlags();
-    Map<String, List<String>> getSpawnActions();
-    Map<String, List<String>> getDeathActions();
-    Map<BossSpawnType, Map<String, List<String>>> getSpawnTypeActions();
-    Map<BossDeathType, Map<String, List<String>>> getDeathTypeActions();
-    PhaseStartType getStartPhaseType();
-    String getStartPhase();
-    List<PhaseData> getPhases();
-    ItemStack getMainHand();
-    ItemStack getOffHand();
-    ItemStack getHelmet();
-    ItemStack getChestplate();
-    ItemStack getLeggings();
-    ItemStack getBoots();
-    boolean isFlagGiveNaturalEffects();
-    List<ConfigurationSection> getDrops();
+public class BossData {
+    public BossData(String name) { }
+    public BossData newIdentity() { return null; }
+    public String getName() { return null; }
+    public String getBossName() { return null; }
+    public String getDisplayName() { return null; }
+    public EntityType getEntityType() { return null; }
+    public double getHealth() { return 0; }
+    public boolean isGlowing() { return false; }
+    public boolean isBaby() { return false; }
+    public BarColor getBarColor() { return null; }
+    public BarStyle getBarStyle() { return null; }
+    public List<BarFlag> getBarFlags() { return null; }
+    public Map<String, List<String>> getSpawnActions() { return null; }
+    public Map<String, List<String>> getDeathActions() { return null; }
+    public Map<BossSpawnType, Map<String, List<String>>> getSpawnTypeActions() { return null; }
+    public Map<BossDeathType, Map<String, List<String>>> getDeathTypeActions() { return null; }
+    public PhaseStartType getStartPhaseType() { return null; }
+    public String getStartPhase() { return null; }
+    public List<PhaseData> getPhases() { return null; }
+    public ItemStack getMainHand() { return null; }
+    public ItemStack getOffHand() { return null; }
+    public ItemStack getHelmet() { return null; }
+    public ItemStack getChestplate() { return null; }
+    public ItemStack getLeggings() { return null; }
+    public ItemStack getBoots() { return null; }
+    public boolean isFlagGiveNaturalEffects() { return false; }
+    public List<ConfigurationSection> getDrops() { return null; }
 }
