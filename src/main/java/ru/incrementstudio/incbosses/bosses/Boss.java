@@ -10,30 +10,30 @@ import ru.incrementstudio.incbosses.bosses.phases.Phase;
 
 import java.util.*;
 
-public interface Boss {
-    void bossActions(Map<String, List<String>> actions);
-    void playersActions(Map<String, List<String>> actions, List<Player> players);
-    String applyPlaceholders(String string, String phaseName);
-    void setPhases();
-    Phase getPhaseByName(String name);
-    void changePhase(String name);
-    void applyPhaseData(Phase phase);
-    void spawn(Location location);
-    void sendDeathMessage();
-    void kill();
+public class Boss {
+    public void bossActions(Map<String, List<String>> actions) { }
+    public void playersActions(Map<String, List<String>> actions, List<Player> players) { }
+    public String applyPlaceholders(String string, String phaseName) { return null; }
+    public void setPhases() { }
+    public Phase getPhaseByName(String name) { return null; }
+    public void changePhase(String name) { }
+    public void applyPhaseData(Phase phase) { }
+    public void spawn(Location location) { }
+    public void sendDeathMessage() { }
+    public void kill() { }
 
-    BossData getData();
-    LivingEntity getEntity();
-    double getNormalizedHealth();
-    HashMap<UUID, Double> getDamageMap();
-    boolean isKilled();
-    Player getKiller();
-    BossDeathType getBossDeathType();
-    BossSpawnType getBossSpawnType();
-    BossBar getBossBar();
-    Phase getCurrentPhase();
+    public BossData getData() { return null; }
+    public LivingEntity getEntity() { return null; }
+    public double getNormalizedHealth() { return 0; }
+    public HashMap<UUID, Double> getDamageMap() { return null; }
+    public boolean isKilled() { return false; }
+    public Player getKiller() { return null; }
+    public BossDeathType getBossDeathType() { return null; }
+    public BossSpawnType getBossSpawnType() { return null; }
+    public BossBar getBossBar() { return null; }
+    public Phase getCurrentPhase() { return null; }
 
-    void setBossDeathType(BossDeathType bossDeathType);
-    void setBossSpawnType(BossSpawnType bossSpawnType);
-    void setKiller(Player killer);
+    public void setBossDeathType(BossDeathType bossDeathType) { }
+    public void setBossSpawnType(BossSpawnType bossSpawnType) { }
+    public void setKiller(Player killer) { }
 }

@@ -1,12 +1,15 @@
 package ru.incrementstudio.incbosses.bosses.phases;
 
-import org.bukkit.entity.LivingEntity;
 import ru.incrementstudio.incbosses.bosses.Boss;
+import ru.incrementstudio.incbosses.bosses.abilities.Ability;
+
+import java.util.List;
 
 public interface Phase {
     PhaseData getData();
     Boss getBoss();
     double getLifetime();
-    void start(LivingEntity entity);
+    List<Ability> getAbilities();
+    void start();
     void stop();
 }

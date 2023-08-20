@@ -14,5 +14,4 @@ public interface PhaseData {
     boolean isFlagChatStartNotification();
     boolean isFlagClearEffectsOnEnd();
     Map<String, TransitionData> getTransitions();
-    List<Ability> getAbilities();
 }
