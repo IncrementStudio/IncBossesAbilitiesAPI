@@ -12,5 +12,5 @@ public interface Ability {
     ConfigurationSection getConfig();
     boolean isActive();
     void stop();
-    void start(LivingEntity bossEntity);
+    void start();
 }
