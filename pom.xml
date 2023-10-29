@@ -70,5 +70,13 @@
             <version>${bukkitVersion}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.IncrementStudio</groupId>
+            <artifactId>IncrementStudioAPI</artifactId>
+            <version>v1.5.0</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>D:/Roma/Desktop/PluginServer/plugins/IncAPI.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

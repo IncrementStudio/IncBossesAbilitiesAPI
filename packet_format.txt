@@ -1,0 +1,36 @@
+Service Packet
+| type |  1  |   2    |
+|  0   | int | byte[] |
+
+arg 1: тип пакета
+0 - Регистрация в IncBosses (String) [От API]
+1 - Создание способности (int, int, ConfigurationSection) [В API]
+
+API Packet
+| type |  1  |  2  |  3  |  4  |   5    |
+|  1   | int | int | int | int | byte[] |
+
+arg 1: bossId
+arg 2: phaseId
+arg 3-4:
+0 - Boss
+    0 - getEntity() -> LivingEntity
+    1 - kill()
+    2 - spawn(Location)
+    3 - isKilled() -> boolean
+    4 - getKiller() -> Player
+    5 - getCurrentPhase() -> Map<String, Integer>
+    6 - getPhases() -> Map<String, Integer>
+    7 - changePhase(String)
+    8 - executeBossActions(Map<String, List<String>>)
+    9 - executePlayersActions(Map<String, List<String>>, List<Player>)
+    10 - getBossBar() -> BossBar
+    11 - getDamageMap() -> Map<UUID, Double>
+    12 - getDeathType() -> BossDeathType
+    13 - getSpawnType() -> BossSpawnType
+1 - BossData
+2 - Phase
+3 - PhaseData
+arg 5: массив байтов - аргументы
+       для функций (для которых
+       они нужны)

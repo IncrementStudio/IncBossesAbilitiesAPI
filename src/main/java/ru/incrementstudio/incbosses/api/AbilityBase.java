@@ -1,8 +1,8 @@
-package ru.incrementstudio.incbosses;
+package ru.incrementstudio.incbosses.api;
 
 import org.bukkit.configuration.ConfigurationSection;
-import ru.incrementstudio.incbosses.bosses.Boss;
-import ru.incrementstudio.incbosses.bosses.phases.Phase;
+import ru.incrementstudio.incbosses.api.bosses.Boss;
+import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 
 public abstract class AbilityBase {
     protected Boss boss;

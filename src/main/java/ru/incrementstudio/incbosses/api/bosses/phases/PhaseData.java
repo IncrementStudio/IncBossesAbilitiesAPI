@@ -1,4 +1,4 @@
-package ru.incrementstudio.incbosses.bosses.phases;
+package ru.incrementstudio.incbosses.api.bosses.phases;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -15,5 +15,4 @@ public class PhaseData {
     public double getPlayersActionsRange() { return 0; }
     public boolean isFlagChatStartNotification() { return false; }
     public boolean isFlagClearEffectsOnEnd() { return false; }
-    public Map<String, TransitionData> getTransitions() { return null; }
 }

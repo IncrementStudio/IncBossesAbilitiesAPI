@@ -1,3 +1,3 @@
-package ru.incrementstudio.incbosses.bosses.enums;
+package ru.incrementstudio.incbosses.api.bosses.enums;
 
 public enum BossDeathType { PLAYER, COMMAND, TIME, OTHER }

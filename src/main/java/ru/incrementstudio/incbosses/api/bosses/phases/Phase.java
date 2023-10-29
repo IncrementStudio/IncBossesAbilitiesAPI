@@ -1,7 +1,6 @@
-package ru.incrementstudio.incbosses.bosses.phases;
+package ru.incrementstudio.incbosses.api.bosses.phases;
 
-import ru.incrementstudio.incbosses.bosses.Boss;
-import ru.incrementstudio.incbosses.bosses.abilities.Ability;
+import ru.incrementstudio.incbosses.api.bosses.Boss;
 
 import java.util.List;
 
@@ -10,7 +9,6 @@ public class Phase {
     public PhaseData getData() { return null; }
     public Boss getBoss() { return null; }
     public double getLifetime() { return 0; }
-    public List<Ability> getAbilities() { return null; }
     public void start() { }
     public void stop() { }
 }
