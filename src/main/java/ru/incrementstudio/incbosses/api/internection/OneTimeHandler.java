@@ -1,7 +1,5 @@
 package ru.incrementstudio.incbosses.api.internection;
 
-import ru.incrementstudio.incbosses.api.AbilityExtension;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;

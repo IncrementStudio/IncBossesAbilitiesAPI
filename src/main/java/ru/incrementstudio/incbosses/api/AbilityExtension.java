@@ -1,5 +1,6 @@
 package ru.incrementstudio.incbosses.api;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.ConfigManager;
 import ru.incrementstudio.incapi.Logger;
@@ -7,8 +8,11 @@ import ru.incrementstudio.incbosses.api.internection.NetInterface;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class AbilityExtension extends JavaPlugin {
+public class AbilityExtension extends JavaPlugin {
+    private final Map<Integer, AbilityBase> abilities = new HashMap<>();
     private static AbilityExtension instance;
     public static AbilityExtension getInstance() {
         return instance;
@@ -23,7 +27,6 @@ public abstract class AbilityExtension extends JavaPlugin {
     public NetInterface getNetInterface() {
         return netInterface;
     }
-    protected int bossId, phaseId;
     private String abilityName = null;
     protected void setAbilityName(String name) {
         this.abilityName = name;
@@ -54,13 +57,27 @@ public abstract class AbilityExtension extends JavaPlugin {
     @Override
     public void onDisable() {
         onAbilityDisable();
-        try {
-            netInterface.getInterface().close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (netInterface != null) {
+            try {
+                netInterface.getInterface().close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
+    public void start(int bossId, int phaseId, ConfigurationSection config) {
+        logger().warn("Ability added");
+        AbilityBase ability = new AbilityBase(bossId, phaseId, config);
+        abilities.put(bossId, ability);
+        ability.start();
+    }
+    public void stop(int bossId) {
+        logger().warn("Ability removed");
+        AbilityBase ability = abilities.get(bossId);
+        ability.stop();
+        abilities.remove(bossId);
+    }
 }
