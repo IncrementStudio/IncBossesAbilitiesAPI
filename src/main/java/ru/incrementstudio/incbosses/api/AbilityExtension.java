@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbilityExtension extends JavaPlugin {
+public abstract class AbilityExtension extends JavaPlugin {
     private final Map<Integer, AbilityBase> abilities = new HashMap<>();
     private static AbilityExtension instance;
     public static AbilityExtension getInstance() {
@@ -70,7 +70,7 @@ public class AbilityExtension extends JavaPlugin {
     public void onAbilityDisable() { }
     public void start(int bossId, int phaseId, ConfigurationSection config) {
         logger().warn("Ability added");
-        AbilityBase ability = new AbilityBase(bossId, phaseId, config);
+        AbilityBase ability = getAbility(bossId, phaseId, config);
         abilities.put(bossId, ability);
         ability.start();
     }
@@ -80,4 +80,5 @@ public class AbilityExtension extends JavaPlugin {
         ability.stop();
         abilities.remove(bossId);
     }
+    public abstract AbilityBase getAbility(int bossId, int phaseId, ConfigurationSection config);
 }
