@@ -61,6 +61,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -73,10 +77,8 @@
         <dependency>
             <groupId>com.github.IncrementStudio</groupId>
             <artifactId>IncrementStudioAPI</artifactId>
-            <version>v1.5.0</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>D:/Roma/Desktop/PluginServer/plugins/IncAPI.jar</systemPath>
+            <version>main-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
