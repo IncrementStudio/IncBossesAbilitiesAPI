@@ -38,7 +38,7 @@ public class Boss {
                 public void dataHandler(byte[] data) {
                     ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
                     try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                        result[0] = (LivingEntity) objectStream.readObject();
+                        result[0] = (LivingEntity) AbilityExtension.getInstance().getServer().getEntity((UUID) objectStream.readObject());
                     } catch (ClassNotFoundException | IOException e) {
                         throw new RuntimeException(e);
                     }
