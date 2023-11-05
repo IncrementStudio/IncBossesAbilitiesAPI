@@ -70,7 +70,6 @@ public class NetInterface {
     public void sendAPIPacket(int bossId, int phaseId, int object, int method, byte[] data) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(bytes);
-        out.writeInt(data.length + 20);
         out.writeInt(1);
         out.writeInt(bossId);
         out.writeInt(phaseId);
