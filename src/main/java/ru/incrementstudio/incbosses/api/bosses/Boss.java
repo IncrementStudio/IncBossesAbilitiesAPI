@@ -25,13 +25,6 @@ public class Boss {
     }
     public LivingEntity getEntity() {
         try {
-            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
-                    id,
-                    0,
-                    Packet.API.BOSS,
-                    Packet.API.Boss.GET_ENTITY,
-                    new byte[0]
-            );
             final LivingEntity[] result = new LivingEntity[1];
             AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
                 @Override
@@ -44,6 +37,14 @@ public class Boss {
                     }
                 }
             });
+            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
+                    id,
+                    0,
+                    Packet.API.BOSS,
+                    Packet.API.Boss.GET_ENTITY,
+                    new byte[0]
+            );
+            while (result[0] == null) { }
             return result[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -89,7 +90,7 @@ public class Boss {
                     Packet.API.Boss.IS_KILLED,
                     new byte[0]
             );
-            final boolean[] result = new boolean[1];
+            final Boolean[] result = new Boolean[1];
             AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
                 @Override
                 public void dataHandler(byte[] data) {
@@ -100,6 +101,7 @@ public class Boss {
                     }
                 }
             });
+            while (result[0] == null) { }
             return result[0];
         } catch (IOException e) {
             throw new RuntimeException(e);
