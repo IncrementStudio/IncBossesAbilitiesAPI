@@ -8,7 +8,7 @@ import ru.incrementstudio.incbosses.api.AbilityExtension;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossDeathType;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossSpawnType;
 import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
-import ru.incrementstudio.incbosses.api.internection.OneTimeHandler;
+import ru.incrementstudio.incapi.internection.OneTimeHandler;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 
 import java.io.*;
@@ -33,7 +33,7 @@ public class Boss {
                     new byte[0]
             );
             final LivingEntity[] result = new LivingEntity[1];
-            new OneTimeHandler(AbilityExtension.getInstance().getNetInterface().getInterface().getClient().getInputStream()) {
+            AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
                 @Override
                 public void dataHandler(byte[] data) {
                     ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
@@ -43,7 +43,7 @@ public class Boss {
                         throw new RuntimeException(e);
                     }
                 }
-            };
+            });
             return result[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -90,7 +90,7 @@ public class Boss {
                     new byte[0]
             );
             final boolean[] result = new boolean[1];
-            new OneTimeHandler(AbilityExtension.getInstance().getNetInterface().getInterface().getClient().getInputStream()) {
+            AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
                 @Override
                 public void dataHandler(byte[] data) {
                     try (DataInputStream dataIn = new DataInputStream(new ByteArrayInputStream(data))) {
@@ -99,7 +99,7 @@ public class Boss {
                         throw new RuntimeException(e);
                     }
                 }
-            };
+            });
             return result[0];
         } catch (IOException e) {
             throw new RuntimeException(e);
