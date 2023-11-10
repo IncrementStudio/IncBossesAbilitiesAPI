@@ -44,9 +44,13 @@ public class Boss {
                     Packet.API.Boss.GET_ENTITY,
                     new byte[0]
             );
-            while (result[0] == null) { }
-            return result[0];
-        } catch (IOException ex) {
+            synchronized (this) {
+                while (result[0] != null) {
+                    Thread.currentThread().wait();
+                }
+                return result[0];
+            }
+        } catch (IOException | InterruptedException ex) {
             throw new RuntimeException(ex);
         }
     }

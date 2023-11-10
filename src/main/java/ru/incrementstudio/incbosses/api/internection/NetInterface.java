@@ -6,8 +6,6 @@ import ru.incrementstudio.incapi.internection.InternectionDouble;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NetInterface {
     private final InternectionDouble netInterface;
