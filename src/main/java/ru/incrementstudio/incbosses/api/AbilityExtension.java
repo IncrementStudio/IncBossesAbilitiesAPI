@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.ConfigManager;
 import ru.incrementstudio.incapi.Logger;
-import ru.incrementstudio.incbosses.api.internection.NetInterface;
+import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,9 +23,9 @@ public abstract class AbilityExtension extends JavaPlugin {
     }
     private static Logger logger;
     public static Logger logger() { return logger; }
-    private NetInterface netInterface;
-    public NetInterface getNetInterface() {
-        return netInterface;
+    private QuantumInterface quantumInterface;
+    public QuantumInterface getQuantumInterface() {
+        return quantumInterface;
     }
     private String abilityName = null;
     protected void setAbilityName(String name) {
@@ -48,7 +48,7 @@ public abstract class AbilityExtension extends JavaPlugin {
             return;
         }
         try {
-            netInterface = new NetInterface();
+            quantumInterface = new QuantumInterface();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,13 +57,6 @@ public abstract class AbilityExtension extends JavaPlugin {
     @Override
     public void onDisable() {
         onAbilityDisable();
-        if (netInterface != null) {
-            try {
-                netInterface.getInterface().close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public void onAbilityEnable() { }

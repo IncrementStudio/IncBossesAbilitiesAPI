@@ -8,11 +8,12 @@ import ru.incrementstudio.incbosses.api.AbilityExtension;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossDeathType;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossSpawnType;
 import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
-import ru.incrementstudio.incapi.internection.OneTimeHandler;
 import ru.incrementstudio.incbosses.api.internection.Packet;
+import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Boss {
     private int id;
@@ -26,37 +27,35 @@ public class Boss {
     public LivingEntity getEntity() {
         try {
             final LivingEntity[] result = new LivingEntity[1];
-            AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
-                @Override
-                public void dataHandler(byte[] data) {
-                    ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
-                    try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                        result[0] = (LivingEntity) AbilityExtension.getInstance().getServer().getEntity((UUID) objectStream.readObject());
-                    } catch (ClassNotFoundException | IOException e) {
-                        throw new RuntimeException(e);
+            AbilityExtension.getInstance().getQuantumInterface().setListener(
+                    bytes -> {
+                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
+                            result[0] = (LivingEntity) AbilityExtension.getInstance().getServer().getEntity((UUID) objectStream.readObject());
+                        } catch (ClassNotFoundException | IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return false;
                     }
-                }
-            });
-            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
+            );
+            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
                     0,
                     Packet.API.BOSS,
                     Packet.API.Boss.GET_ENTITY,
                     new byte[0]
             );
-            synchronized (this) {
-                while (result[0] != null) {
-                    Thread.currentThread().wait();
-                }
-                return result[0];
-            }
-        } catch (IOException | InterruptedException ex) {
+            AbilityExtension.getInstance().getQuantumInterface().setListener(
+                    QuantumInterface.DEFAULT_LISTENER
+            );
+            return result[0];
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
     public void kill() {
         try {
-            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
+            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
                     0,
                     Packet.API.BOSS,
@@ -74,7 +73,7 @@ public class Boss {
             out.writeObject(location);
             out.flush();
 
-            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
+            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
                     0,
                     Packet.API.BOSS,
@@ -87,25 +86,27 @@ public class Boss {
     }
     public boolean isKilled() {
         try {
-            AbilityExtension.getInstance().getNetInterface().sendAPIPacket(
+            final Boolean[] result = new Boolean[1];
+            AbilityExtension.getInstance().getQuantumInterface().setListener(
+                    bytes -> {
+                        try (DataInputStream dataIn = new DataInputStream(new ByteArrayInputStream(bytes))) {
+                            result[0] = dataIn.readBoolean();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return false;
+                    }
+            );
+            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
                     0,
                     Packet.API.BOSS,
                     Packet.API.Boss.IS_KILLED,
                     new byte[0]
             );
-            final Boolean[] result = new Boolean[1];
-            AbilityExtension.getInstance().getNetInterface().getInterface().getClient().addOneTimeHandler(new OneTimeHandler() {
-                @Override
-                public void dataHandler(byte[] data) {
-                    try (DataInputStream dataIn = new DataInputStream(new ByteArrayInputStream(data))) {
-                        result[0] = dataIn.readBoolean();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-            while (result[0] == null) { }
+            AbilityExtension.getInstance().getQuantumInterface().setListener(
+                    QuantumInterface.DEFAULT_LISTENER
+            );
             return result[0];
         } catch (IOException e) {
             throw new RuntimeException(e);

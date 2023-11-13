@@ -2,57 +2,60 @@ package ru.incrementstudio.incbosses.api.internection;
 
 import org.bukkit.configuration.ConfigurationSection;
 import ru.incrementstudio.incapi.Config;
-import ru.incrementstudio.incapi.internection.InternectionDouble;
+import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
 
 import java.io.*;
+import java.util.function.Predicate;
 
-public class NetInterface {
-    private final InternectionDouble netInterface;
-    public InternectionDouble getInterface() {
-        return netInterface;
-    }
-
-    public NetInterface() throws IOException {
-        netInterface = new InternectionDouble(getServerPort(), getClientPort()) {
-            @Override
-            public void dataHandler(ConnectionHandler handler, byte[] data) {
-                try {
-                    ByteArrayInputStream byteIn = new ByteArrayInputStream(data);
-                    DataInputStream dataIn = new DataInputStream(byteIn);
-                    int type = dataIn.readInt();
-                    if (type == 0) {
-                        int serviceType = dataIn.readInt();
-                        if (serviceType == 1) {
-                            int bossId = dataIn.readInt();
-                            int phaseId = dataIn.readInt();
-                            String configFile = dataIn.readUTF();
-                            String configPath = dataIn.readUTF();
-                            AbilityExtension.getInstance().start(
-                                    bossId,
-                                    phaseId,
-                                    new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath)
-                            );
-                        } else if (serviceType == 2) {
-                            int bossId = dataIn.readInt();
-                            AbilityExtension.getInstance().stop(
-                                    bossId
-                            );
-                            handler.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+public class QuantumInterface {
+    public static final Predicate<byte[]> DEFAULT_LISTENER = bytes -> {
+        try {
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(bytes);
+            DataInputStream dataIn = new DataInputStream(byteIn);
+            int type = dataIn.readInt();
+            if (type == 0) {
+                int serviceType = dataIn.readInt();
+                if (serviceType == 1) {
+                    int bossId = dataIn.readInt();
+                    int phaseId = dataIn.readInt();
+                    String configFile = dataIn.readUTF();
+                    String configPath = dataIn.readUTF();
+                    AbilityExtension.getInstance().start(
+                            bossId,
+                            phaseId,
+                            new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath)
+                    );
+                } else if (serviceType == 2) {
+                    int bossId = dataIn.readInt();
+                    AbilityExtension.getInstance().stop(
+                            bossId
+                    );
                 }
             }
-        };
-        netInterface.getClient().bind();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    };
+    private Quantum quantum;
+    public Quantum getQuantum() {
+        return quantum;
+    }
+
+    public QuantumInterface() throws IOException {
+        quantum = new Quantum();
+        quantum.setListener(getServerPort(), DEFAULT_LISTENER);
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(byteOut);
         dataOut.writeUTF(AbilityExtension.getInstance().getAbilityName());
         dataOut.writeInt(getServerPort());
         dataOut.flush();
         sendServicePacket(Packet.Service.REGISTRATION, byteOut.toByteArray());
+    }
+
+    public void setListener(Predicate<byte[]> listener) {
+        quantum.setListener(getServerPort(), listener);
     }
 
     public void sendServicePacket(int type, byte[] data) throws IOException {
@@ -62,7 +65,7 @@ public class NetInterface {
         out.writeInt(type);
         out.write(data);
         out.flush();
-        netInterface.getClient().send(bytes.toByteArray());
+        quantum.send(getIncBossesId(), bytes.toByteArray());
     }
 
     public void sendAPIPacket(int bossId, int phaseId, int object, int method, byte[] data) throws IOException {
@@ -75,7 +78,7 @@ public class NetInterface {
         out.writeInt(method);
         out.write(data);
         out.flush();
-        netInterface.getClient().send(bytes.toByteArray());
+        quantum.send(getIncBossesId(), bytes.toByteArray());
     }
 
     private int getServerPort() {
@@ -86,7 +89,7 @@ public class NetInterface {
         throw new RuntimeException("В файле 'internection.yml' не найдено значение 'module'");
     }
 
-    private int getClientPort() {
+    private int getIncBossesId() {
         ConfigurationSection internection = AbilityExtension.getConfigManager().getConfig("internection").get();
         if (internection.contains("main-plugin")) {
             return internection.getInt("main-plugin");
