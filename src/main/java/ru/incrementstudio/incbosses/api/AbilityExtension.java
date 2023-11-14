@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.ConfigManager;
 import ru.incrementstudio.incapi.Logger;
+import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.IOException;
@@ -74,4 +75,7 @@ public abstract class AbilityExtension extends JavaPlugin {
         abilities.remove(bossId);
     }
     public abstract AbilityBase getAbility(int bossId, int phaseId, ConfigurationSection config);
+    public Quantum quantum() {
+        return quantumInterface.getQuantum();
+    }
 }
