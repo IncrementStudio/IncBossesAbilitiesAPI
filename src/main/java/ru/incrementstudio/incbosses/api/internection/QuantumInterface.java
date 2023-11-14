@@ -63,8 +63,6 @@ public class QuantumInterface {
     public void sendAPIPacket(int bossId, int phaseId, int object, int method, byte[] data) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(bytes);
-        out.writeInt(getModuleId());
-        out.writeInt(1);
         out.writeInt(bossId);
         out.writeInt(phaseId);
         out.writeInt(object);
