@@ -39,7 +39,7 @@ public abstract class AbilityExtension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         logger = new Logger(this);
-        configManager = new ConfigManager(this, Collections.singletonList("internection"));
+        configManager = new ConfigManager(this, Collections.singletonList("quantum"));
         configManager.updateAll();
         onAbilityEnable();
         if (abilityName == null || abilityName.isEmpty()) {
