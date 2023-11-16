@@ -74,10 +74,10 @@ public class QuantumInterface {
 
     private int getModuleId() {
         ConfigurationSection internection = AbilityExtension.getConfigManager().getConfig("quantum").get();
-        if (internection.contains("module")) {
-            return internection.getInt("module");
+        if (internection.contains("id")) {
+            return internection.getInt("id");
         }
-        throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'module'");
+        throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'id'");
     }
 
     private int getIncBossesId() {
