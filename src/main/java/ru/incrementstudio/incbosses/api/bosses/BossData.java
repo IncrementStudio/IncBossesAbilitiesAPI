@@ -117,13 +117,13 @@ public class BossData {
     }
     public EntityType getEntityType() {
         try {
-            final String[] result = new String[1];
+            final EntityType[] result = new EntityType[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
+                            result[0] = (EntityType) objectStream.readObject();
+                        } catch (IOException | ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
                         return false;
@@ -139,7 +139,7 @@ public class BossData {
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     QuantumInterface.DEFAULT_LISTENER
             );
-            return EntityType.valueOf(result[0]);
+            return result[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -233,13 +233,13 @@ public class BossData {
     }
     public BarColor getBarColor() {
         try {
-            final String[] result = new String[1];
+            final BarColor[] result = new BarColor[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
+                            result[0] = (BarColor) objectStream.readObject();
+                        } catch (IOException | ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
                         return false;
@@ -255,20 +255,20 @@ public class BossData {
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     QuantumInterface.DEFAULT_LISTENER
             );
-            return BarColor.valueOf(result[0]);
+            return result[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
     public BarStyle getBarStyle() {
         try {
-            final String[] result = new String[1];
+            final BarStyle[] result = new BarStyle[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
+                            result[0] = (BarStyle) objectStream.readObject();
+                        } catch (IOException | ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
                         return false;
@@ -284,7 +284,7 @@ public class BossData {
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     QuantumInterface.DEFAULT_LISTENER
             );
-            return BarStyle.valueOf(result[0]);
+            return result[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -440,12 +440,12 @@ public class BossData {
     }
     public List<PhaseData> getPhaseDatas() {
         try {
-            final List<Map.Entry<Integer, Integer>>[] result = new ArrayList[1];
+            final List<Integer>[] result = new ArrayList[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (List<Map.Entry<Integer, Integer>>) objectStream.readObject();
+                            result[0] = (List<Integer>) objectStream.readObject();
                         } catch (IOException | ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -463,7 +463,7 @@ public class BossData {
                     QuantumInterface.DEFAULT_LISTENER
             );
             List<PhaseData> trueResult = new ArrayList<>();
-            result[0].forEach(x -> trueResult.add(new PhaseData(new Phase(new Boss(x.getKey()), x.getValue()))));
+            result[0].forEach(x -> trueResult.add(new PhaseData(new Phase(new Boss(bossId), x))));
             return trueResult;
         } catch (IOException ex) {
             throw new RuntimeException(ex);

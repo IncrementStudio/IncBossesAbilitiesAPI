@@ -1,6 +1,5 @@
 package ru.incrementstudio.incbosses.api.bosses.phases;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
@@ -75,7 +74,7 @@ public class PhaseData {
             throw new RuntimeException(ex);
         }
     }
-    public Map<String, List<String>> getBossActions() {
+    public Map<String, List<String>> getStartActions() {
         try {
             final Map<String, List<String>>[] result = new HashMap[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
@@ -93,7 +92,7 @@ public class PhaseData {
                     phase.getBoss().getId(),
                     phase.getId(),
                     Packet.API.PHASE_DATA,
-                    Packet.API.PhaseData.GET_BOSS_ACTIONS,
+                    Packet.API.PhaseData.GET_START_ACTIONS,
                     new byte[0]
             );
             AbilityExtension.getInstance().getQuantumInterface().setListener(

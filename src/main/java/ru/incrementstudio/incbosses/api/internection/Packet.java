@@ -54,7 +54,7 @@ public class Packet {
         public static class PhaseData {
             public static final int GET_NAME = 0;
             public static final int GET_PHASE_NAME = 1;
-            public static final int GET_BOSS_ACTIONS = 2;
+            public static final int GET_START_ACTIONS = 2;
             public static final int GET_AREA_PLAYERS_ACTIONS = 3;
             public static final int GET_FIGHTERS_ACTIONS = 4;
             public static final int GET_PLAYERS_ACTIONS_AREA_RANGE = 5;
