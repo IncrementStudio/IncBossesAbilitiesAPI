@@ -2,6 +2,7 @@ package ru.incrementstudio.incbosses.api.bosses;
 
 import org.bukkit.Location;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
@@ -13,6 +14,7 @@ import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Boss {
     private int id;
@@ -173,12 +175,12 @@ public class Boss {
     }
     public List<Phase> getPhases() {
         try {
-            final List<Map.Entry<Integer, Integer>>[] result = new ArrayList[1];
+            final List<Integer>[] result = new ArrayList[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (List<Map.Entry<Integer, Integer>>) objectStream.readObject();
+                            result[0] = (List<Integer>) objectStream.readObject();
                         } catch (IOException | ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
@@ -196,7 +198,7 @@ public class Boss {
                     QuantumInterface.DEFAULT_LISTENER
             );
             List<Phase> trueResult = new ArrayList<>();
-            result[0].forEach(x -> trueResult.add(new Phase(new Boss(x.getKey()), x.getValue())));
+            result[0].forEach(x -> trueResult.add(new Phase(this, x)));
             return trueResult;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -243,7 +245,7 @@ public class Boss {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(bytes);
             out.writeObject(actions);
-            out.writeObject(players);
+            out.writeObject(players.stream().map(Entity::getUniqueId).collect(Collectors.toList()));
             out.flush();
 
             AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
@@ -288,12 +290,12 @@ public class Boss {
     }
     public Map<UUID, Double> getDamageMap() {
         try {
-            final HashMap<UUID, Double>[] result = new HashMap[1];
+            final Map<UUID, Double>[] result = new Map[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
                     bytes -> {
                         ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
                         try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (HashMap<UUID, Double>) objectStream.readObject();
+                            result[0] = (Map<UUID, Double>) objectStream.readObject();
                         } catch (ClassNotFoundException | IOException e) {
                             throw new RuntimeException(e);
                         }
