@@ -15,13 +15,11 @@ import ru.incrementstudio.incbosses.api.bosses.enums.BossSpawnType;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BossData {
-    private int bossId;
+    private final int bossId;
     public BossData(Boss boss) {
         bossId = boss.getId();
     }
@@ -29,647 +27,357 @@ public class BossData {
         this.bossId = bossId;
     }
     public String getName() {
-        try {
-            final String[] result = new String[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_NAME,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final String[] result = new String[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (String) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_NAME
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public String getBossName() {
-        try {
-            final String[] result = new String[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_BOSS_NAME,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final String[] result = new String[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (String) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_BOSS_NAME
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public String getDisplayName() {
-        try {
-            final String[] result = new String[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readUTF();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_DISPLAY_NAME,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final String[] result = new String[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (String) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_DISPLAY_NAME
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public EntityType getEntityType() {
-        try {
-            final EntityType[] result = new EntityType[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (EntityType) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_ENTITY_TYPE,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final EntityType[] result = new EntityType[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (EntityType) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_ENTITY_TYPE
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public double getHealth() {
-        try {
-            final double[] result = new double[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readDouble();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_HEALTH,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final double[] result = new double[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (double) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_HEALTH
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public boolean isGlowing() {
-        try {
-            final boolean[] result = new boolean[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readBoolean();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.IS_GLOWING,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final boolean[] result = new boolean[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (boolean) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.IS_GLOWING
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public boolean isBaby() {
-        try {
-            final boolean[] result = new boolean[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readBoolean();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.IS_BABY,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final boolean[] result = new boolean[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (boolean) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.IS_BABY
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public BarColor getBarColor() {
-        try {
-            final BarColor[] result = new BarColor[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (BarColor) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_BAR_COLOR,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final BarColor[] result = new BarColor[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (BarColor) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_BAR_COLOR
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public BarStyle getBarStyle() {
-        try {
-            final BarStyle[] result = new BarStyle[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (BarStyle) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_BAR_STYLE,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final BarStyle[] result = new BarStyle[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (BarStyle) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_BAR_STYLE
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public List<BarFlag> getBarFlags() {
-        try {
-            final List<BarFlag>[] result = new ArrayList[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (List<BarFlag>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_BAR_FLAGS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final List<BarFlag>[] result = new ArrayList[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (List<BarFlag>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_BAR_FLAGS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public Map<String, List<String>> getSpawnActions() {
-        try {
-            final Map<String, List<String>>[] result = new HashMap[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (Map<String, List<String>>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_SPAWN_ACTIONS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final Map<String, List<String>>[] result = new HashMap[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (Map<String, List<String>>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_SPAWN_ACTIONS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public Map<String, List<String>> getDeathActions() {
-        try {
-            final Map<String, List<String>>[] result = new HashMap[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (Map<String, List<String>>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_DEATH_ACTIONS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final Map<String, List<String>>[] result = new HashMap[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (Map<String, List<String>>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_DEATH_ACTIONS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public Map<BossSpawnType, Map<String, List<String>>> getSpawnTypeActions() {
-        try {
-            final Map<Integer, Map<String, List<String>>>[] result = new HashMap[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (Map<Integer, Map<String, List<String>>>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_SPAWN_TYPE_ACTIONS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            Map<BossSpawnType, Map<String, List<String>>> trueResult = new HashMap<>();
-            result[0].forEach((k, v) -> trueResult.put(BossSpawnType.getByType(k), v));
-            return trueResult;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final Map<BossSpawnType, Map<String, List<String>>>[] result = new HashMap[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (Map<BossSpawnType, Map<String, List<String>>>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_SPAWN_TYPE_ACTIONS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public Map<BossDeathType, Map<String, List<String>>> getDeathTypeActions() {
-        try {
-            final Map<Integer, Map<String, List<String>>>[] result = new HashMap[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (Map<Integer, Map<String, List<String>>>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_DEATH_TYPE_ACTIONS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            Map<BossDeathType, Map<String, List<String>>> trueResult = new HashMap<>();
-            result[0].forEach((k, v) -> trueResult.put(BossDeathType.getByType(k), v));
-            return trueResult;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final Map<BossDeathType, Map<String, List<String>>>[] result = new HashMap[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (Map<BossDeathType, Map<String, List<String>>>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_DEATH_TYPE_ACTIONS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public List<PhaseData> getPhaseDatas() {
-        try {
-            final List<Integer>[] result = new ArrayList[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (List<Integer>) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_PHASE_DATAS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            List<PhaseData> trueResult = new ArrayList<>();
-            result[0].forEach(x -> trueResult.add(new PhaseData(new Phase(new Boss(bossId), x))));
-            return trueResult;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final List<Integer>[] result = new ArrayList[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (List<Integer>) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_PHASE_DATAS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0].stream()
+                .map(x -> new PhaseData(new Phase(new Boss(bossId), x)))
+                .collect(Collectors.toList());
     }
     public ItemStack getMainHand() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_MAIN_HAND,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_MAIN_HAND
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public ItemStack getOffHand() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_OFF_HAND,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_OFF_HAND
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public ItemStack getHelmet() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_HELMET,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_HELMET
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public ItemStack getChestplate() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_CHESTPLATE,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_CHESTPLATE
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public ItemStack getLeggings() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_LEGGINGS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_LEGGINGS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public ItemStack getBoots() {
-        try {
-            final ItemStack[] result = new ItemStack[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = (ItemStack) objectStream.readObject();
-                        } catch (IOException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.GET_BOOTS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final ItemStack[] result = new ItemStack[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (ItemStack) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.GET_BOOTS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
     public boolean isFlagGiveNaturalEffects() {
-        try {
-            final boolean[] result = new boolean[1];
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    bytes -> {
-                        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-                        try (ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
-                            result[0] = objectStream.readBoolean();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        return false;
-                    }
-            );
-            AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                    bossId,
-                    0,
-                    Packet.API.BOSS_DATA,
-                    Packet.API.BossData.IS_FLAG_GIVE_NATURAL_EFFECTS,
-                    new byte[0]
-            );
-            AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final boolean[] result = new boolean[1];
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                data -> result[0] = (boolean) data[0]
+        );
+        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
+                bossId,
+                0,
+                Packet.API.BOSS_DATA,
+                Packet.API.BossData.IS_FLAG_GIVE_NATURAL_EFFECTS
+        );
+        AbilityExtension.getInstance().getQuantumInterface().setListener(
+                QuantumInterface.DEFAULT_LISTENER
+        );
+        return result[0];
     }
 }

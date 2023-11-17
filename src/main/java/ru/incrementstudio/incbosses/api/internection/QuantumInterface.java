@@ -6,37 +6,28 @@ import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
 
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.function.Predicate;
+import java.util.function.Consumer;
 
 public class QuantumInterface {
-    public static final Predicate<byte[]> DEFAULT_LISTENER = bytes -> {
-        try {
-            ByteArrayInputStream byteIn = new ByteArrayInputStream(bytes);
-            DataInputStream dataIn = new DataInputStream(byteIn);
-            int type = dataIn.readInt();
-            if (type == 0) {
-                int bossId = dataIn.readInt();
-                int phaseId = dataIn.readInt();
-                String configFile = dataIn.readUTF();
-                String configPath = dataIn.readUTF();
-                AbilityExtension.getInstance().start(
-                        bossId,
-                        phaseId,
-                        new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath)
-                );
-            } else if (type == 1) {
-                int bossId = dataIn.readInt();
-                AbilityExtension.getInstance().stop(
-                        bossId
-                );
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public static final Consumer<Object[]> DEFAULT_LISTENER = data -> {
+        int type = (int) data[0];
+        if (type == 0) {
+            int bossId = (int) data[1];
+            int phaseId = (int) data[2];
+            String configFile = (String) data[3];
+            String configPath = (String) data[4];
+            AbilityExtension.getInstance().start(
+                    bossId,
+                    phaseId,
+                    new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath)
+            );
+        } else if (type == 1) {
+            int bossId = (int) data[1];
+            AbilityExtension.getInstance().stop(
+                    bossId
+            );
         }
-        return false;
     };
     private Quantum quantum;
     public Quantum getQuantum() {
@@ -56,20 +47,12 @@ public class QuantumInterface {
         registration.getOutputStream().write(byteOut.toByteArray());
     }
 
-    public void setListener(Predicate<byte[]> listener) {
+    public void setListener(Consumer<Object[]> listener) {
         quantum.setListener(getModuleId(), listener);
     }
 
-    public void sendAPIPacket(int bossId, int phaseId, int object, int method, byte[] data) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(bytes);
-        out.writeInt(bossId);
-        out.writeInt(phaseId);
-        out.writeInt(object);
-        out.writeInt(method);
-        out.write(data);
-        out.flush();
-        quantum.send(getIncBossesId(), bytes.toByteArray());
+    public void sendAPIPacket(int bossId, int phaseId, int object, int method, Object... data) {
+        quantum.send(getIncBossesId(), bossId, phaseId, object, method, data);
     }
 
     private int getModuleId() {
