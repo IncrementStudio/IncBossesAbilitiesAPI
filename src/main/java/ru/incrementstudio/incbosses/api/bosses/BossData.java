@@ -221,7 +221,11 @@ public class BossData {
     public Map<BossSpawnType, Map<String, List<String>>> getSpawnTypeActions() {
         final Map<BossSpawnType, Map<String, List<String>>>[] result = new HashMap[1];
         AbilityExtension.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (Map<BossSpawnType, Map<String, List<String>>>) data[0]
+                data -> result[0] = ((Map<Integer, Map<String, List<String>>>) data[0]).entrySet().stream()
+                        .collect(Collectors.toMap(
+                                x -> BossSpawnType.getByType(x.getKey()),
+                                Map.Entry::getValue
+                        ))
         );
         AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                 bossId,
@@ -237,7 +241,11 @@ public class BossData {
     public Map<BossDeathType, Map<String, List<String>>> getDeathTypeActions() {
         final Map<BossDeathType, Map<String, List<String>>>[] result = new HashMap[1];
         AbilityExtension.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (Map<BossDeathType, Map<String, List<String>>>) data[0]
+                data -> result[0] = ((Map<Integer, Map<String, List<String>>>) data[0]).entrySet().stream()
+                .collect(Collectors.toMap(
+                        x -> BossDeathType.getByType(x.getKey()),
+                        Map.Entry::getValue
+                ))
         );
         AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                 bossId,

@@ -29,7 +29,7 @@ public class QuantumInterface {
             );
         }
     };
-    private Quantum quantum;
+    private final Quantum quantum;
     public Quantum getQuantum() {
         return quantum;
     }

@@ -189,7 +189,7 @@ public class Boss {
     public BossDeathType getDeathType() {
             final BossDeathType[] result = new BossDeathType[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    data -> result[0] = (BossDeathType) data[0]
+                    data -> result[0] = BossDeathType.getByType((int) data[0])
             );
             AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
@@ -205,7 +205,7 @@ public class Boss {
     public BossSpawnType getSpawnType() {
             final BossSpawnType[] result = new BossSpawnType[1];
             AbilityExtension.getInstance().getQuantumInterface().setListener(
-                    data -> result[0] = (BossSpawnType) data[0]
+                    data -> result[0] = BossSpawnType.getByType((int) data[0])
             );
             AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
                     id,
