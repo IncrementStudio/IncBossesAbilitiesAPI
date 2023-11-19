@@ -17,15 +17,19 @@ public class QuantumInterface {
             int phaseId = (int) data[2];
             String configFile = (String) data[3];
             String configPath = (String) data[4];
+            int reason = (int) data[5];
             AbilityExtension.getInstance().start(
                     bossId,
                     phaseId,
-                    new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath)
+                    new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath),
+                    reason
             );
         } else if (type == 1) {
             int bossId = (int) data[1];
+            int reason = (int) data[2];
             AbilityExtension.getInstance().stop(
-                    bossId
+                    bossId,
+                    reason
             );
         }
     };

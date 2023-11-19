@@ -10,6 +10,6 @@ public class AbilityBase {
         this.phaseId = phaseId;
         this.config = config;
     }
-    public void start() { }
-    public void stop() { }
+    public void start(int reason) { }
+    public void stop(int reason) { }
 }

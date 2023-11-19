@@ -2,7 +2,6 @@ package ru.incrementstudio.incbosses.api.bosses;
 
 import org.bukkit.Location;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
@@ -12,7 +11,6 @@ import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
-import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 

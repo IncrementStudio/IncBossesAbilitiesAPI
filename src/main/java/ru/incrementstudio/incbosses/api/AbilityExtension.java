@@ -62,16 +62,16 @@ public abstract class AbilityExtension extends JavaPlugin {
 
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
-    public void start(int bossId, int phaseId, ConfigurationSection config) {
+    public void start(int bossId, int phaseId, ConfigurationSection config, int reason) {
         logger().warn("Ability added");
         AbilityBase ability = getAbility(bossId, phaseId, config);
         abilities.put(bossId, ability);
-        ability.start();
+        ability.start(reason);
     }
-    public void stop(int bossId) {
+    public void stop(int bossId, int reason) {
         logger().warn("Ability removed");
         AbilityBase ability = abilities.get(bossId);
-        ability.stop();
+        ability.stop(reason);
         abilities.remove(bossId);
     }
     public abstract AbilityBase getAbility(int bossId, int phaseId, ConfigurationSection config);
