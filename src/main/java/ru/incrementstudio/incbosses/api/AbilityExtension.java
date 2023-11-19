@@ -29,23 +29,16 @@ public abstract class AbilityExtension extends JavaPlugin {
     public QuantumInterface getQuantumInterface() {
         return quantumInterface;
     }
-    private String abilityName = null;
-    protected void setAbilityName(String name) {
-        this.abilityName = name;
-    }
-    public String getAbilityName() {
-        return abilityName;
-    }
+    public abstract String getAbilityName();
 
     @Override
     public void onEnable() {
         instance = this;
         logger = new Logger(this);
-        config = new Config(this, "plugins//IncBosses//abilities//quantum.yml");
+        config = new Config(this, "plugins//IncBosses//abilities//" + getAbilityName() + "//quantum.yml");
         config.update();
         onAbilityEnable();
-        if (abilityName == null || abilityName.isEmpty()) {
-            logger.fatalError("Вы не установили значение abilityName! Установите имя способности при помощи setAbilityName(String) внутри метода onAbilityEnable()");
+        if (getAbilityName() == null || getAbilityName().isEmpty()) {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
