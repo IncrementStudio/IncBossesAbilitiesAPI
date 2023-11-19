@@ -49,6 +49,7 @@ public class QuantumInterface {
         dataOut.flush();
         Socket registration = new Socket("localhost", getIncBossesPort());
         registration.getOutputStream().write(byteOut.toByteArray());
+        registration.getOutputStream().flush();
     }
 
     public void setListener(Consumer<Object[]> listener) {
