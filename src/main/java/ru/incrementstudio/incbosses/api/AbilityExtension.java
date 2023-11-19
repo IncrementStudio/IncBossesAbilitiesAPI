@@ -2,6 +2,7 @@ package ru.incrementstudio.incbosses.api;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.incrementstudio.incapi.Config;
 import ru.incrementstudio.incapi.ConfigManager;
 import ru.incrementstudio.incapi.Logger;
 import ru.incrementstudio.incapi.quantum.Quantum;
@@ -18,9 +19,9 @@ public abstract class AbilityExtension extends JavaPlugin {
     public static AbilityExtension getInstance() {
         return instance;
     }
-    private static ConfigManager configManager;
-    public static ConfigManager getConfigManager() {
-        return configManager;
+    private static Config config;
+    public static Config getQuantumConfig() {
+        return config;
     }
     private static Logger logger;
     public static Logger logger() { return logger; }
@@ -40,8 +41,8 @@ public abstract class AbilityExtension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         logger = new Logger(this);
-        configManager = new ConfigManager(this, Collections.singletonList("quantum"));
-        configManager.updateAll();
+        config = new Config(this, "plugins//IncBosses//abilities//quantum.yml");
+        config.update();
         onAbilityEnable();
         if (abilityName == null || abilityName.isEmpty()) {
             logger.fatalError("Вы не установили значение abilityName! Установите имя способности при помощи setAbilityName(String) внутри метода onAbilityEnable()");

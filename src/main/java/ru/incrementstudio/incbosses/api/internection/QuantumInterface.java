@@ -65,7 +65,7 @@ public class QuantumInterface {
     }
 
     private int getModuleId() {
-        ConfigurationSection internection = AbilityExtension.getConfigManager().getConfig("quantum").get();
+        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
         if (internection.contains("id")) {
             return internection.getInt("id");
         }
@@ -73,7 +73,7 @@ public class QuantumInterface {
     }
 
     private int getIncBossesId() {
-        ConfigurationSection internection = AbilityExtension.getConfigManager().getConfig("quantum").get();
+        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
         if (internection.contains("incbosses")) {
             return internection.getInt("incbosses");
         }
@@ -81,7 +81,7 @@ public class QuantumInterface {
     }
 
     private int getIncBossesPort() {
-        ConfigurationSection internection = AbilityExtension.getConfigManager().getConfig("quantum").get();
+        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
         if (internection.contains("incbosses-port")) {
             return internection.getInt("incbosses-port");
         }
