@@ -41,15 +41,24 @@ public class QuantumInterface {
     public QuantumInterface() throws IOException {
         quantum = new Quantum();
         quantum.setListener(getModuleId(), DEFAULT_LISTENER);
+
+        AbilityExtension.logger().info("listener");
+
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(byteOut);
         dataOut.writeInt(getModuleId());
         dataOut.writeUTF(AbilityExtension.getInstance().getAbilityName());
         dataOut.writeUTF(AbilityExtension.getInstance().getName());
         dataOut.flush();
-        Socket registration = new Socket("localhost", getIncBossesPort());
-        registration.getOutputStream().write(byteOut.toByteArray());
-        registration.getOutputStream().flush();
+
+        AbilityExtension.logger().info("create data");
+
+        try (Socket registration = new Socket("localhost", getIncBossesPort())) {
+            registration.getOutputStream().write(byteOut.toByteArray());
+            registration.getOutputStream().flush();
+        }
+
+        AbilityExtension.logger().info("sended");
     }
 
     public void setListener(Consumer<Object[]> listener) {
