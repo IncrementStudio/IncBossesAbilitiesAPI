@@ -6,7 +6,6 @@ import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.function.Consumer;
 
 public class QuantumInterface {
@@ -41,19 +40,6 @@ public class QuantumInterface {
     public QuantumInterface() throws IOException {
         quantum = new Quantum();
         quantum.setListener(getModuleId(), DEFAULT_LISTENER);
-
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        DataOutputStream dataOut = new DataOutputStream(byteOut);
-        dataOut.writeInt(getModuleId());
-        dataOut.writeUTF(AbilityExtension.getInstance().getAbilityName());
-        dataOut.writeUTF(AbilityExtension.getInstance().getName());
-        dataOut.flush();
-
-        try (Socket registration = new Socket("localhost", getIncBossesPort())) {
-            registration.getOutputStream().write(byteOut.toByteArray());
-            registration.getOutputStream().flush();
-            registration.getOutputStream().close();
-        }
     }
 
     public void setListener(Consumer<Object[]> listener) {
@@ -78,13 +64,5 @@ public class QuantumInterface {
             return internection.getInt("incbosses");
         }
         throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'incbosses'");
-    }
-
-    private int getIncBossesPort() {
-        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
-        if (internection.contains("incbosses-port")) {
-            return internection.getInt("incbosses-port");
-        }
-        throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'incbosses-port'");
     }
 }

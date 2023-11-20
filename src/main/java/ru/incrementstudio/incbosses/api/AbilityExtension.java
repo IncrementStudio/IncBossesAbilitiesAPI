@@ -30,6 +30,7 @@ public abstract class AbilityExtension extends JavaPlugin {
         return quantumInterface;
     }
     public abstract String getAbilityName();
+    public abstract int getAbilityId();
 
     @Override
     public void onEnable() {
@@ -57,13 +58,11 @@ public abstract class AbilityExtension extends JavaPlugin {
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
     public void start(int bossId, int phaseId, ConfigurationSection config, int reason) {
-        logger().warn("Ability added");
         AbilityBase ability = getAbility(bossId, phaseId, config);
         abilities.put(bossId, ability);
         ability.start(reason);
     }
     public void stop(int bossId, int reason) {
-        logger().warn("Ability removed");
         AbilityBase ability = abilities.get(bossId);
         ability.stop(reason);
         abilities.remove(bossId);
