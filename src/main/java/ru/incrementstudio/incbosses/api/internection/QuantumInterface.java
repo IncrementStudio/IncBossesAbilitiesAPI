@@ -47,22 +47,18 @@ public class QuantumInterface {
     }
 
     public void sendAPIPacket(int bossId, int phaseId, int object, int method, Object... data) {
-        quantum.send(getIncBossesId(), bossId, phaseId, object, method, data);
+        quantum.send(0, bossId, phaseId, object, method, data);
     }
 
     public static int getModuleId() {
-        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
-        if (internection.contains("id")) {
-            return internection.getInt("id");
+        Config quantumConfig = AbilityExtension.getConfigManager().getConfig("config");
+        if (quantumConfig != null) {
+            ConfigurationSection quantum = quantumConfig.get();
+            if (quantum.contains("id")) {
+                return quantum.getInt("id");
+            }
+            throw new RuntimeException("В файле 'config.yml' не найдено значение 'id'");
         }
-        throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'id'");
-    }
-
-    public static int getIncBossesId() {
-        ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
-        if (internection.contains("incbosses")) {
-            return internection.getInt("incbosses");
-        }
-        throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'incbosses'");
+        throw new RuntimeException("Файл 'config.yml' не найден!");
     }
 }
