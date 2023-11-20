@@ -30,7 +30,9 @@ public abstract class AbilityExtension extends JavaPlugin {
         return quantumInterface;
     }
     public abstract String getAbilityName();
-    public abstract int getAbilityId();
+    public int getAbilityId() {
+        return QuantumInterface.getModuleId();
+    }
 
     @Override
     public void onEnable() {

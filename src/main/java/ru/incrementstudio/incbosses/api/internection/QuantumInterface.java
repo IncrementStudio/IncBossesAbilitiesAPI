@@ -50,7 +50,7 @@ public class QuantumInterface {
         quantum.send(getIncBossesId(), bossId, phaseId, object, method, data);
     }
 
-    private int getModuleId() {
+    public static int getModuleId() {
         ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
         if (internection.contains("id")) {
             return internection.getInt("id");
@@ -58,7 +58,7 @@ public class QuantumInterface {
         throw new RuntimeException("В файле 'quantum.yml' не найдено значение 'id'");
     }
 
-    private int getIncBossesId() {
+    public static int getIncBossesId() {
         ConfigurationSection internection = AbilityExtension.getQuantumConfig().get();
         if (internection.contains("incbosses")) {
             return internection.getInt("incbosses");
