@@ -38,7 +38,7 @@ public abstract class AbilityExtension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         logger = new Logger(this);
-        config = new Config(this, "plugins//IncBosses//abilities//" + getAbilityName() + "//quantum.yml");
+        config = new Config(this, "plugins//IncBosses//abilities//" + getName() + "//quantum.yml");
         config.update();
         onAbilityEnable();
         if (getAbilityName() == null || getAbilityName().isEmpty()) {
