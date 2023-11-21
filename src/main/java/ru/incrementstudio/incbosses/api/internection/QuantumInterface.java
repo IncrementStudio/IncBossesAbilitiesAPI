@@ -1,6 +1,7 @@
 package ru.incrementstudio.incbosses.api.internection;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import ru.incrementstudio.incapi.Config;
 import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.AbilityExtension;
@@ -14,13 +15,14 @@ public class QuantumInterface {
         if (type == 0) {
             int bossId = (int) data[1];
             int phaseId = (int) data[2];
-            String configFile = (String) data[3];
-            String configPath = (String) data[4];
+            FileConfiguration bossConfig = (FileConfiguration) data[3];
+            ConfigurationSection phaseConfig = (ConfigurationSection) data[4];
             int reason = (int) data[5];
             AbilityExtension.getInstance().start(
                     bossId,
                     phaseId,
-                    new Config(AbilityExtension.getInstance(), configFile).get().getConfigurationSection(configPath),
+                    bossConfig,
+                    phaseConfig,
                     reason
             );
         } else if (type == 1) {

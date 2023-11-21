@@ -1,6 +1,7 @@
 package ru.incrementstudio.incbosses.api;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.Config;
 import ru.incrementstudio.incapi.Logger;
@@ -68,8 +69,8 @@ public abstract class AbilityExtension extends JavaPlugin {
 
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
-    public void start(int bossId, int phaseId, ConfigurationSection config, int reason) {
-        AbilityBase ability = getAbility(bossId, phaseId, config);
+    public void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection phaseConfig, int reason) {
+        AbilityBase ability = getAbility(bossId, phaseId, bossConfig, phaseConfig);
         abilities.put(bossId, ability);
         ability.start(reason);
     }
@@ -78,7 +79,7 @@ public abstract class AbilityExtension extends JavaPlugin {
         ability.stop(reason);
         abilities.remove(bossId);
     }
-    public abstract AbilityBase getAbility(int bossId, int phaseId, ConfigurationSection config);
+    public abstract AbilityBase getAbility(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection phaseConfig);
     public Quantum quantum() {
         return quantumInterface.getQuantum();
     }
