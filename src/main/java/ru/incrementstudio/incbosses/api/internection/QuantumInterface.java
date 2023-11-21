@@ -16,13 +16,13 @@ public class QuantumInterface {
             int bossId = (int) data[1];
             int phaseId = (int) data[2];
             FileConfiguration bossConfig = (FileConfiguration) data[3];
-            ConfigurationSection phaseConfig = (ConfigurationSection) data[4];
+            ConfigurationSection abilityConfig = (ConfigurationSection) data[4];
             int reason = (int) data[5];
             AbilityExtension.getInstance().start(
                     bossId,
                     phaseId,
                     bossConfig,
-                    phaseConfig,
+                    abilityConfig,
                     reason
             );
         } else if (type == 1) {

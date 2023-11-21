@@ -69,8 +69,8 @@ public abstract class AbilityExtension extends JavaPlugin {
 
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
-    public void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection phaseConfig, int reason) {
-        AbilityBase ability = getAbility(bossId, phaseId, bossConfig, phaseConfig);
+    public void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig, int reason) {
+        AbilityBase ability = getAbility(bossId, phaseId, bossConfig, abilityConfig);
         abilities.put(bossId, ability);
         ability.start(reason);
     }
@@ -79,7 +79,7 @@ public abstract class AbilityExtension extends JavaPlugin {
         ability.stop(reason);
         abilities.remove(bossId);
     }
-    public abstract AbilityBase getAbility(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection phaseConfig);
+    public abstract AbilityBase getAbility(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
     public Quantum quantum() {
         return quantumInterface.getQuantum();
     }
