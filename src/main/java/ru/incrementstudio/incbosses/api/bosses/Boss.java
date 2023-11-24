@@ -133,25 +133,6 @@ public class Boss {
                 phase.getId()
         );
     }
-    public void executeBossActions(Map<String, List<String>> actions) {
-        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.EXECUTE_BOSS_ACTIONS,
-                actions
-        );
-    }
-    public void executePlayersActions(Map<String, List<String>> actions, List<Player> players) {
-        AbilityExtension.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.EXECUTE_PLAYERS_ACTIONS,
-                actions,
-                players
-        );
-    }
     public BossBar getBossBar() {
         final BossBar[] result = new BossBar[1];
         AbilityExtension.getInstance().getQuantumInterface().setListener(
