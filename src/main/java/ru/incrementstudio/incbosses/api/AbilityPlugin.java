@@ -16,11 +16,11 @@ import java.util.Map;
 
 public abstract class AbilityPlugin extends JavaPlugin {
     private final Map<Integer, AbilityBase> abilities = new HashMap<>();
-    private static int ID;
-    private static void setID(int id) {
+    private int ID;
+    private void setID(int id) {
         ID = id;
     }
-    public static int getID() {
+    public int getID() {
         return ID;
     }
     private static AbilityPlugin instance;
