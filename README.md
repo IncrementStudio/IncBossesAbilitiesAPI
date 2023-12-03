@@ -201,7 +201,7 @@ public void start(StartReason reason) {
     List<Player> players = bossEntity.getNearbyEntities(radius, radius, radius).stream()
         .filter(x -> x instanceof Player)
         .filter(x -> x.getLocation().distance(bossEntity.getLocation()) <= radius)
-        .map((Player) x)
+        .map(x -> (Player) x)
         .collect(Collectors.toList());
     for (Player player : players)
         player.damage(damage);
@@ -214,7 +214,7 @@ public void start(StartReason reason) {
     List<Player> players = bossEntity.getNearbyEntities(radius, radius, radius).stream()
         .filter(x -> x instanceof Player)
         .filter(x -> x.getLocation().distance(bossEntity.getLocation()) <= radius)
-        .map((Player) x)
+        .map(x -> (Player) x)
         .collect(Collectors.toList());
     for (Player player : players)
         player.damage(damage);
