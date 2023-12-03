@@ -12,6 +12,9 @@ public final class ConfigManager {
     public ConfigManager(Plugin plugin) {
         this.plugin = plugin;
         configFolder = new File("plugins//IncBosses//abilities//" + plugin.getName());
+    }
+
+    public void createConfigFolder() {
         if (!configFolder.exists())
             configFolder.mkdirs();
     }
