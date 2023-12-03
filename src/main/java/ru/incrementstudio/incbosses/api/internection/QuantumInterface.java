@@ -42,11 +42,11 @@ public final class QuantumInterface {
 
     public QuantumInterface() throws IOException {
         quantum = new Quantum();
-        quantum.setListener(AbilityPlugin.ID, DEFAULT_LISTENER);
+        quantum.setListener(AbilityPlugin.getID(), DEFAULT_LISTENER);
     }
 
     public void setListener(Consumer<Object[]> listener) {
-        quantum.setListener(AbilityPlugin.ID, listener);
+        quantum.setListener(AbilityPlugin.getID(), listener);
     }
 
     public void sendAPIPacket(int bossId, int phaseId, int object, int method, Object... data) {
