@@ -78,7 +78,7 @@
             <groupId>com.github.IncrementStudio</groupId>
             <artifactId>IncrementStudioAPI</artifactId>
             <version>main-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

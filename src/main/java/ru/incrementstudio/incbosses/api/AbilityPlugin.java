@@ -6,17 +6,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.incrementstudio.incapi.Config;
 import ru.incrementstudio.incapi.Logger;
 import ru.incrementstudio.incapi.quantum.Quantum;
+import ru.incrementstudio.incbosses.api.bosses.Boss;
+import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbilityExtension extends JavaPlugin {
+public abstract class AbilityPlugin extends JavaPlugin {
     private final Map<Integer, AbilityBase> abilities = new HashMap<>();
-    private static AbilityExtension instance;
-    public static AbilityExtension getInstance() {
+    public static int ID;
+    private static AbilityPlugin instance;
+    public static AbilityPlugin getInstance() {
         return instance;
     }
     private static ConfigManager configManager;
@@ -26,11 +28,11 @@ public abstract class AbilityExtension extends JavaPlugin {
     private static Logger logger;
     public static Logger logger() { return logger; }
     private QuantumInterface quantumInterface;
-    public QuantumInterface getQuantumInterface() {
+    public final QuantumInterface getQuantumInterface() {
         return quantumInterface;
     }
     public String getAbilityName() {
-        Config quantumConfig = AbilityExtension.getConfigManager().getConfig("config");
+        Config quantumConfig = AbilityPlugin.getConfigManager().getConfig("config");
         if (quantumConfig != null) {
             ConfigurationSection quantum = quantumConfig.get();
             if (quantum.contains("name")) {
@@ -40,17 +42,12 @@ public abstract class AbilityExtension extends JavaPlugin {
         }
         throw new RuntimeException("Файл 'config.yml' не найден!");
     }
-    public int getAbilityId() {
-        return QuantumInterface.getModuleId();
-    }
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         instance = this;
         logger = new Logger(this);
         configManager = new ConfigManager(this);
-        configManager.updateAll("config");
-        onAbilityEnable();
         if (getAbilityName() == null || getAbilityName().isEmpty()) {
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -60,27 +57,28 @@ public abstract class AbilityExtension extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        onAbilityEnable();
     }
 
     @Override
-    public void onDisable() {
+    public final void onDisable() {
         onAbilityDisable();
     }
 
     public void onAbilityEnable() { }
     public void onAbilityDisable() { }
-    public void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig, int reason) {
-        AbilityBase ability = getAbility(bossId, phaseId, bossConfig, abilityConfig);
+    public final void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig, StartReason reason) {
+        AbilityBase ability = getAbility(new Boss(bossId), new Phase(new Boss(bossId), phaseId), bossConfig, abilityConfig);
         abilities.put(bossId, ability);
         ability.start(reason);
     }
-    public void stop(int bossId, int reason) {
+    public final void stop(int bossId, StopReason reason) {
         AbilityBase ability = abilities.get(bossId);
         ability.stop(reason);
         abilities.remove(bossId);
     }
-    public abstract AbilityBase getAbility(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
-    public Quantum quantum() {
+    public abstract AbilityBase getAbility(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
+    private final Quantum quantum() {
         return quantumInterface.getQuantum();
     }
 }
