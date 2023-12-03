@@ -17,10 +17,10 @@ import java.util.Map;
 public abstract class AbilityPlugin extends JavaPlugin {
     private final Map<Integer, AbilityBase> abilities = new HashMap<>();
     private int ID;
-    public void setID(int id) {
+    public final void setID(int id) {
         ID = id;
     }
-    public int getID() {
+    public final int getID() {
         return ID;
     }
     private static AbilityPlugin instance;
@@ -84,7 +84,7 @@ public abstract class AbilityPlugin extends JavaPlugin {
         abilities.remove(bossId);
     }
     public abstract AbilityBase getAbility(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
-    private Quantum quantum() {
+    public final Quantum quantum() {
         return quantumInterface.getQuantum();
     }
 }
