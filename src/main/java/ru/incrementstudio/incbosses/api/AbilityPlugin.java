@@ -17,7 +17,7 @@ import java.util.Map;
 public abstract class AbilityPlugin extends JavaPlugin {
     private final Map<Integer, AbilityBase> abilities = new HashMap<>();
     private int ID;
-    private void setID(int id) {
+    public void setID(int id) {
         ID = id;
     }
     public int getID() {
@@ -84,7 +84,7 @@ public abstract class AbilityPlugin extends JavaPlugin {
         abilities.remove(bossId);
     }
     public abstract AbilityBase getAbility(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
-    private final Quantum quantum() {
+    private Quantum quantum() {
         return quantumInterface.getQuantum();
     }
 }
