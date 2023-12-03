@@ -18,6 +18,10 @@ public class Phase {
         this.boss = boss;
         this.id = id;
     }
+    public Phase(int bossId, int id) {
+        this.boss = new Boss(bossId);
+        this.id = id;
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Phase)

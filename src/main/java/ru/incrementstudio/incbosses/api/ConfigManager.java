@@ -4,11 +4,8 @@ import org.bukkit.plugin.Plugin;
 import ru.incrementstudio.incapi.Config;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class ConfigManager {
+public final class ConfigManager {
     private final Plugin plugin;
     private final File configFolder;
 

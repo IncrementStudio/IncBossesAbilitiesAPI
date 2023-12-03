@@ -1,12 +1,8 @@
 package ru.incrementstudio.incbosses.api.bosses;
 
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import ru.incrementstudio.incbosses.api.AbilityPlugin;
-import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 import ru.incrementstudio.incbosses.api.bosses.phases.PhaseData;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
@@ -14,7 +10,7 @@ import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BossData {
+public final class BossData {
     private final int bossId;
     public BossData(Boss boss) {
         bossId = boss.getId();
@@ -22,7 +18,7 @@ public class BossData {
     public BossData(int bossId) {
         this.bossId = bossId;
     }
-    public final String getName() {
+    public String getName() {
         final String[] result = new String[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (String) data[0]
@@ -38,7 +34,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final String getBossName() {
+    public String getBossName() {
         final String[] result = new String[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (String) data[0]
@@ -54,7 +50,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final String getDisplayName() {
+    public String getDisplayName() {
         final String[] result = new String[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (String) data[0]
@@ -70,7 +66,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final EntityType getEntityType() {
+    public EntityType getEntityType() {
         final EntityType[] result = new EntityType[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (EntityType) data[0]
@@ -86,7 +82,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final double getHealth() {
+    public double getHealth() {
         final double[] result = new double[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (double) data[0]
@@ -102,7 +98,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final boolean isGlowing() {
+    public boolean isGlowing() {
         final boolean[] result = new boolean[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (boolean) data[0]
@@ -118,7 +114,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final boolean isBaby() {
+    public boolean isBaby() {
         final boolean[] result = new boolean[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (boolean) data[0]
@@ -134,7 +130,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final List<PhaseData> getPhaseDatas() {
+    public List<PhaseData> getPhaseDatas() {
         final List<Integer>[] result = new ArrayList[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (List<Integer>) data[0]
@@ -149,10 +145,10 @@ public class BossData {
                 QuantumInterface.DEFAULT_LISTENER
         );
         return result[0].stream()
-                .map(x -> new PhaseData(new Phase(new Boss(bossId), x)))
+                .map(x -> new PhaseData(bossId, x))
                 .collect(Collectors.toList());
     }
-    public final ItemStack getMainHand() {
+    public ItemStack getMainHand() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]
@@ -168,7 +164,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final ItemStack getOffHand() {
+    public ItemStack getOffHand() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]
@@ -184,7 +180,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final ItemStack getHelmet() {
+    public ItemStack getHelmet() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]
@@ -200,7 +196,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final ItemStack getChestplate() {
+    public ItemStack getChestplate() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]
@@ -216,7 +212,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final ItemStack getLeggings() {
+    public ItemStack getLeggings() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]
@@ -232,7 +228,7 @@ public class BossData {
         );
         return result[0];
     }
-    public final ItemStack getBoots() {
+    public ItemStack getBoots() {
         final ItemStack[] result = new ItemStack[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (ItemStack) data[0]

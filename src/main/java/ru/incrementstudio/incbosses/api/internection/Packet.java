@@ -1,7 +1,7 @@
 package ru.incrementstudio.incbosses.api.internection;
 
-public class Packet {
-    public static class API {
+public final class Packet {
+    public final static class API {
         public static final int BOSS = 0;
         public static final int BOSS_DATA = 1;
         public static final int PHASE = 2;
@@ -18,7 +18,7 @@ public class Packet {
             public static final int GET_DEATH_TYPE = 8;
             public static final int GET_SPAWN_TYPE = 9;
         }
-        public static class BossData {
+        public final static class BossData {
             public static final int GET_NAME = 0;
             public static final int GET_BOSS_NAME = 1;
             public static final int GET_DISPLAY_NAME = 2;
@@ -34,12 +34,12 @@ public class Packet {
             public static final int GET_LEGGINGS = 12;
             public static final int GET_BOOTS = 13;
         }
-        public static class Phase {
+        public final static class Phase {
             public static final int GET_LIFETIME = 0;
             public static final int START = 1;
             public static final int STOP = 2;
         }
-        public static class PhaseData {
+        public final static class PhaseData {
             public static final int GET_NAME = 0;
             public static final int GET_PHASE_NAME = 1;
         }

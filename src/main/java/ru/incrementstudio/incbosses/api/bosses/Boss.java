@@ -1,7 +1,5 @@
 package ru.incrementstudio.incbosses.api.bosses;
 
-import org.bukkit.Location;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import ru.incrementstudio.incbosses.api.AbilityPlugin;

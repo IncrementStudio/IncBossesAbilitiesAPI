@@ -1,13 +1,20 @@
 package ru.incrementstudio.incbosses.api.bosses.phases;
 
 import ru.incrementstudio.incbosses.api.AbilityPlugin;
+import ru.incrementstudio.incbosses.api.bosses.Boss;
 import ru.incrementstudio.incbosses.api.internection.Packet;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
-public class PhaseData {
+public final class PhaseData {
     private final Phase phase;
     public PhaseData(Phase phase) {
         this.phase = phase;
+    }
+    public PhaseData(Boss boss, int phaseId) {
+        this.phase = new Phase(boss, phaseId);
+    }
+    public PhaseData(int bossId, int phaseId) {
+        this.phase = new Phase(new Boss(bossId), phaseId);
     }
     public String getName() {
         final String[] result = new String[1];
