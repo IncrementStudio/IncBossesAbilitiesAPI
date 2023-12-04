@@ -71,7 +71,7 @@ public class Boss {
         );
         return result[0];
     }
-    public Player getKiller() {
+    public Player getLastDamager() {
         final Player[] result = new Player[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 data -> result[0] = (Player) data[0]
@@ -80,7 +80,7 @@ public class Boss {
                 id,
                 0,
                 Packet.API.BOSS,
-                Packet.API.Boss.GET_KILLER
+                Packet.API.Boss.GET_LAST_DAMAGER
         );
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
                 QuantumInterface.DEFAULT_LISTENER
@@ -121,13 +121,13 @@ public class Boss {
                 .map(x -> new Phase(this, x))
                 .collect(Collectors.toList());
     }
-    public void changePhase(Phase phase) {
+    public void changePhase(int phaseId) {
         AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
                 id,
                 0,
                 Packet.API.BOSS,
                 Packet.API.Boss.CHANGE_PHASE,
-                phase.getId()
+                phaseId
         );
     }
     public Map<UUID, Double> getDamageMap() {

@@ -47,20 +47,4 @@ public class Phase {
         );
         return result[0];
     }
-    public void start() {
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                boss.getId(),
-                id,
-                Packet.API.PHASE,
-                Packet.API.Phase.START
-        );
-    }
-    public void stop() {
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                boss.getId(),
-                id,
-                Packet.API.PHASE,
-                Packet.API.Phase.STOP
-        );
-    }
 }

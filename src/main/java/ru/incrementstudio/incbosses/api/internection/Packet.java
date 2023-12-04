@@ -10,7 +10,7 @@ public final class Packet {
             public static final int GET_ENTITY = 0;
             public static final int KILL = 1;
             public static final int IS_KILLED = 2;
-            public static final int GET_KILLER = 3;
+            public static final int GET_LAST_DAMAGER = 3;
             public static final int GET_CURRENT_PHASE = 4;
             public static final int GET_PHASES = 5;
             public static final int CHANGE_PHASE = 6;
