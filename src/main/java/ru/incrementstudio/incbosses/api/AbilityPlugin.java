@@ -39,17 +39,6 @@ public abstract class AbilityPlugin extends JavaPlugin {
         return quantumInterface;
     }
 
-    public AbilityPlugin() {
-        PrintStream old = System.out;
-        System.setOut(new PrintStream(old) {
-            @Override
-            public void print(String s) {
-                if (s == null) return;
-                if (!s.matches(".*?\\[" + getName() + "]\\s(Enabling|Disabling)\\s" + getName() + ".+"))
-                    super.print(s);
-            }
-        });
-    }
     public String getAbilityName() {
         return getName();
     }
