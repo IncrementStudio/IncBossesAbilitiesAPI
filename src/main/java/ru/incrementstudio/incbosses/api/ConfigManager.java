@@ -1,7 +1,7 @@
 package ru.incrementstudio.incbosses.api;
 
 import org.bukkit.plugin.Plugin;
-import ru.incrementstudio.incapi.Config;
+import ru.incrementstudio.incapi.configs.Config;
 
 import java.io.File;
 

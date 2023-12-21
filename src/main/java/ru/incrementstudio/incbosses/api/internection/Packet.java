@@ -36,8 +36,6 @@ public final class Packet {
         }
         public final static class Phase {
             public static final int GET_LIFETIME = 0;
-            public static final int START = 1;
-            public static final int STOP = 2;
         }
         public final static class PhaseData {
             public static final int GET_NAME = 0;

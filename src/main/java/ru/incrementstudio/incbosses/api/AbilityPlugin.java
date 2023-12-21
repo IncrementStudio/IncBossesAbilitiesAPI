@@ -3,7 +3,7 @@ package ru.incrementstudio.incbosses.api;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.incrementstudio.incapi.Config;
+import ru.incrementstudio.incapi.configs.Config;
 import ru.incrementstudio.incapi.Logger;
 import ru.incrementstudio.incapi.quantum.Quantum;
 import ru.incrementstudio.incbosses.api.bosses.Boss;
@@ -11,6 +11,7 @@ import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,16 +38,20 @@ public abstract class AbilityPlugin extends JavaPlugin {
     public final QuantumInterface getQuantumInterface() {
         return quantumInterface;
     }
-    public String getAbilityName() {
-        Config quantumConfig = AbilityPlugin.getConfigManager().getConfig("config");
-        if (quantumConfig != null) {
-            ConfigurationSection quantum = quantumConfig.get();
-            if (quantum.contains("name")) {
-                return quantum.getString("name");
+
+    public AbilityPlugin() {
+        PrintStream old = System.out;
+        System.setOut(new PrintStream(old) {
+            @Override
+            public void print(String s) {
+                if (s == null) return;
+                if (!s.matches(".*?\\[" + getName() + "]\\s(Enabling|Disabling)\\s" + getName() + ".+"))
+                    super.print(s);
             }
-            throw new RuntimeException("В файле 'config.yml' не найдено значение 'name'");
-        }
-        throw new RuntimeException("Файл 'config.yml' не найден!");
+        });
+    }
+    public String getAbilityName() {
+        return getName();
     }
 
     @Override
