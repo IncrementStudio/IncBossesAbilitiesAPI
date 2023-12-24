@@ -130,10 +130,10 @@ public class Boss {
                 phaseId
         );
     }
-    public Map<UUID, Double> getDamageMap() {
-        final Map<UUID, Double>[] result = new Map[1];
+    public Map<String, Double> getDamageMap() {
+        final Map<String, Double>[] result = new Map[1];
         AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (Map<UUID, Double>) data[0]
+                data -> result[0] = (Map<String, Double>) data[0]
         );
         AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
                 id,
