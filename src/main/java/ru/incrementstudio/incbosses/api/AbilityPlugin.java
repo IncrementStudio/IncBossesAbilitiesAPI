@@ -12,11 +12,13 @@ import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbilityPlugin extends JavaPlugin {
-    private final Map<Integer, AbilityBase> abilities = new HashMap<>();
+    private final Map<Integer, List<AbilityBase>> abilities = new HashMap<>();
     private int ID;
     public final void setID(int id) {
         ID = id;
@@ -69,12 +71,14 @@ public abstract class AbilityPlugin extends JavaPlugin {
     public void onAbilityDisable() { }
     public final void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig, StartReason reason) {
         AbilityBase ability = getAbility(new Boss(bossId), new Phase(new Boss(bossId), phaseId), bossConfig, abilityConfig);
-        abilities.put(bossId, ability);
+        if (!abilities.containsKey(bossId))
+            abilities.put(bossId, new ArrayList<>());
+        abilities.get(bossId).add(ability);
         ability.start(reason);
     }
     public final void stop(int bossId, StopReason reason) {
-        AbilityBase ability = abilities.get(bossId);
-        ability.stop(reason);
+        List<AbilityBase> ability = abilities.get(bossId);
+        ability.forEach(x -> x.stop(reason));
         abilities.remove(bossId);
     }
     public abstract AbilityBase getAbility(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
