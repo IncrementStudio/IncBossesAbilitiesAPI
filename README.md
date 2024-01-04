@@ -127,7 +127,7 @@ public AbilityBase(Boss boss, Phase phase, FileConfiguration bossConfig, Configu
 - `Phase getCurrentPhase()` - метод, возвращающий текущую фазу босса
 - `List<Phase> getPhases()` - метод, возвращающий все фазы босса
 - `void changePhase(int)` - метод, меняющий фазу босса на фазу, которой соответствует переданный id
-- `Map<UUID, Double> getDamageMap()` - метод, возвращающий таблицу урона босса
+- `Map<String, Double> getDamageMap()` - метод, возвращающий таблицу урона босса, где ключ - ник игрока, а значение - нанесённый им урон
 - `BossDeathType getDeathType()` - метод, возвращающий тип смерти босса (возвращает null, если босс ещё не убит)
   - `BossDeathType.PLAYER` - босс побеждён игроком
   - `BossDeathType.COMMAND` - босс убит командой
