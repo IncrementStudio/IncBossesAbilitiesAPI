@@ -1,4 +1,4 @@
-package ru.incrementstudio.incbosses.api.bosses.enums;
+package ru.incrementstudio.incbosses.api.enums;
 
 public enum BossSpawnType {
     AUTO(0),

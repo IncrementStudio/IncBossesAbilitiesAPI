@@ -4,22 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import ru.incrementstudio.incbosses.api.bosses.Boss;
-import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
 
 import java.util.logging.Logger;
 
 public abstract class AbilityPlugin {
-    private ConfigManager configManager;
-    public ConfigManager getConfigManager() {
-        return configManager;
-    }
     private Logger logger;
     public Logger getLogger() { return logger; }
 
     public final void enable() {
         logger = Logger.getLogger(AbilityPlugin.class.getName());
-        configManager = new ConfigManager(this);
         onEnable();
     }
     public final void disable() {
@@ -39,10 +32,10 @@ public abstract class AbilityPlugin {
     protected final ConfigurationSection abilityConfig;
     public static Plugin IncBosses = Bukkit.getPluginManager().getPlugin("IncBosses");
 
-    public AbilityPlugin(Object boss, Object phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig) {
+    public AbilityPlugin(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig) {
         this.name = getClass().getClassLoader().getName();
-        this.boss = new Boss(boss);
-        this.phase = new Phase(this.boss, phase);
+        this.boss = boss;
+        this.phase = phase;
         this.bossConfig = bossConfig;
         this.abilityConfig = abilityConfig;
     }
