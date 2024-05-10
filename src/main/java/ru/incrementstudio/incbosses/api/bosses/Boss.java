@@ -2,7 +2,7 @@ package ru.incrementstudio.incbosses.api.bosses;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import ru.incrementstudio.incbosses.api.AbilityPlugin;
+import ru.incrementstudio.incbosses.api.StartReason;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossDeathType;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossSpawnType;
 import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
@@ -64,7 +64,7 @@ public class Boss {
                 .collect(Collectors.toList());
     }
     public void changePhase(String name) {
-        invoke("changePhase", name, AbilityPlugin.StartReason.PHASE_CHANGING.type);
+        invoke("changePhase", name, StartReason.PHASE_CHANGING.type);
     }
     public Map<String, Double> getDamageMap() {
         return (Map<String, Double>) invoke("getDamageMap");
