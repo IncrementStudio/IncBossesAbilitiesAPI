@@ -1,88 +1,86 @@
 package ru.incrementstudio.incbosses.api;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-import ru.incrementstudio.incapi.configs.Config;
-import ru.incrementstudio.incapi.Logger;
-import ru.incrementstudio.incapi.quantum.Quantum;
+import org.bukkit.plugin.Plugin;
 import ru.incrementstudio.incbosses.api.bosses.Boss;
 import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
-import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
 
-public abstract class AbilityPlugin extends JavaPlugin {
-    private final Map<Integer, List<AbilityBase>> abilities = new HashMap<>();
-    private int ID;
-    public final void setID(int id) {
-        ID = id;
-    }
-    public final int getID() {
-        return ID;
-    }
-    private static AbilityPlugin instance;
-    public static AbilityPlugin getInstance() {
-        return instance;
-    }
-    private static ConfigManager configManager;
-    public static ConfigManager getConfigManager() {
+public abstract class AbilityPlugin {
+    private ConfigManager configManager;
+    public ConfigManager getConfigManager() {
         return configManager;
     }
-    private static Logger logger;
-    public static Logger logger() { return logger; }
-    private QuantumInterface quantumInterface;
-    public final QuantumInterface getQuantumInterface() {
-        return quantumInterface;
-    }
+    private Logger logger;
+    public Logger getLogger() { return logger; }
 
-    public String getAbilityName() {
-        return getName();
-    }
-
-    @Override
-    public final void onEnable() {
-        instance = this;
-        logger = new Logger(this);
+    public final void enable() {
+        logger = Logger.getLogger(AbilityPlugin.class.getName());
         configManager = new ConfigManager(this);
-        if (getAbilityName() == null || getAbilityName().isEmpty()) {
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        try {
-            quantumInterface = new QuantumInterface();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        onAbilityEnable();
+        onEnable();
+    }
+    public final void disable() {
+        onDisable();
+    }
+    public void onEnable() { }
+    public void onDisable() { }
+
+    protected final String name;
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public final void onDisable() {
-        onAbilityDisable();
+    protected final Boss boss;
+    protected final Phase phase;
+    protected final FileConfiguration bossConfig;
+    protected final ConfigurationSection abilityConfig;
+    public static Plugin IncBosses = Bukkit.getPluginManager().getPlugin("IncBosses");
+
+    public AbilityPlugin(Object boss, Object phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig) {
+        this.name = getClass().getClassLoader().getName();
+        this.boss = new Boss(boss);
+        this.phase = new Phase(this.boss, phase);
+        this.bossConfig = bossConfig;
+        this.abilityConfig = abilityConfig;
     }
 
-    public void onAbilityEnable() { }
-    public void onAbilityDisable() { }
-    public final void start(int bossId, int phaseId, FileConfiguration bossConfig, ConfigurationSection abilityConfig, StartReason reason) {
-        AbilityBase ability = getAbility(new Boss(bossId), new Phase(new Boss(bossId), phaseId), bossConfig, abilityConfig);
-        if (!abilities.containsKey(bossId))
-            abilities.put(bossId, new ArrayList<>());
-        abilities.get(bossId).add(ability);
-        ability.start(reason);
+    public enum StartReason {
+        SPAWN(0),
+        PHASE_CHANGING(1);
+        public final int type;
+        StartReason(int type) {
+            this.type = type;
+        }
+        public static StartReason getByType(int type) {
+            for (StartReason reason : values())
+                if (reason.type == type)
+                    return reason;
+            return null;
+        }
     }
-    public final void stop(int bossId, StopReason reason) {
-        List<AbilityBase> ability = abilities.get(bossId);
-        ability.forEach(x -> x.stop(reason));
-        abilities.remove(bossId);
+    public enum StopReason {
+        DEATH(0),
+        PHASE_CHANGING(1);
+        public final int type;
+        StopReason(int type) {
+            this.type = type;
+        }
+        public static StopReason getByType(int type) {
+            for (StopReason reason : values())
+                if (reason.type == type)
+                    return reason;
+            return null;
+        }
     }
-    public abstract AbilityBase getAbility(Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig);
-    public final Quantum quantum() {
-        return quantumInterface.getQuantum();
+    public final void start(int reason) {
+        start(StartReason.getByType(reason));
     }
+    public final void stop(int reason) {
+        stop(StopReason.getByType(reason));
+    }
+    public void start(StartReason reason) { }
+    public void stop(StopReason reason) { }
 }

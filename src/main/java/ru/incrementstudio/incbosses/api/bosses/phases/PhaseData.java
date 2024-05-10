@@ -1,51 +1,31 @@
 package ru.incrementstudio.incbosses.api.bosses.phases;
 
-import ru.incrementstudio.incbosses.api.AbilityPlugin;
-import ru.incrementstudio.incbosses.api.bosses.Boss;
-import ru.incrementstudio.incbosses.api.internection.Packet;
-import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public final class PhaseData {
-    private final Phase phase;
-    public PhaseData(Phase phase) {
-        this.phase = phase;
+    private final Object phaseData;
+    public PhaseData(Object phaseData) {
+        this.phaseData = phaseData;
     }
-    public PhaseData(Boss boss, int phaseId) {
-        this.phase = new Phase(boss, phaseId);
+
+    private Object invoke(String method, Object... params) {
+        try {
+            return phaseData.getClass().getMethod(method, Arrays.stream(params)
+                    .map(Object::getClass)
+                    .toArray(Class[]::new)
+            ).invoke(phaseData, params);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignore) { }
+        return null;
     }
-    public PhaseData(int bossId, int phaseId) {
-        this.phase = new Phase(new Boss(bossId), phaseId);
+    private <T> T notNullOrDefault(T obj, T defaultObj) {
+        return obj == null ? defaultObj : obj;
     }
+
     public String getName() {
-        final String[] result = new String[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (String) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                phase.getBoss().getId(),
-                phase.getId(),
-                Packet.API.PHASE_DATA,
-                Packet.API.PhaseData.GET_NAME
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (String) invoke("getName");
     }
     public String getPhaseName() {
-        final String[] result = new String[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (String) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                phase.getBoss().getId(),
-                phase.getId(),
-                Packet.API.PHASE_DATA,
-                Packet.API.PhaseData.GET_PHASE_NAME
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (String) invoke("getPhaseName");
     }
 }

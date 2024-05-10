@@ -1,50 +1,45 @@
 package ru.incrementstudio.incbosses.api.bosses.phases;
 
-import ru.incrementstudio.incbosses.api.AbilityPlugin;
 import ru.incrementstudio.incbosses.api.bosses.Boss;
-import ru.incrementstudio.incbosses.api.internection.Packet;
-import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public class Phase {
     private final Boss boss;
-    public Boss getBoss() {
-        return boss;
-    }
-    private final int id;
-    public int getId() {
-        return id;
-    }
-    public Phase(Boss boss, int id) {
+    private final Object phase;
+    public Phase(Boss boss, Object phase) {
         this.boss = boss;
-        this.id = id;
+        this.phase = phase;
     }
-    public Phase(int bossId, int id) {
-        this.boss = new Boss(bossId);
-        this.id = id;
-    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Phase)
-            return boss.equals(((Phase) obj).boss) && ((Phase) obj).getId() == id;
+            return boss.equals(((Phase) obj).boss) && ((Phase) obj).getId() == getId();
         return false;
     }
+
+    private Object invoke(String method, Object... params) {
+        try {
+            return phase.getClass().getMethod(method, Arrays.stream(params)
+                    .map(Object::getClass)
+                    .toArray(Class[]::new)
+            ).invoke(phase, params);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignore) { }
+        return null;
+    }
+    private <T> T notNullOrDefault(T obj, T defaultObj) {
+        return obj == null ? defaultObj : obj;
+    }
+
+    public int getId() {
+        return (int) notNullOrDefault(invoke("getId"), 0);
+    }
     public PhaseData getData() {
-        return new PhaseData(this);
+        return new PhaseData(invoke("getData"));
     }
     public double getLifetime() {
-        final double[] result = new double[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (double) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                boss.getId(),
-                id,
-                Packet.API.PHASE,
-                Packet.API.Phase.GET_LIFETIME
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (double) notNullOrDefault(invoke("getLifetime"), 0);
     }
 }

@@ -6,176 +6,73 @@ import ru.incrementstudio.incbosses.api.AbilityPlugin;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossDeathType;
 import ru.incrementstudio.incbosses.api.bosses.enums.BossSpawnType;
 import ru.incrementstudio.incbosses.api.bosses.phases.Phase;
-import ru.incrementstudio.incbosses.api.internection.Packet;
-import ru.incrementstudio.incbosses.api.internection.QuantumInterface;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Boss {
-    private final int id;
-    public int getId() {
-        return id;
-    }
-    public Boss(int id) {
-        this.id = id;
+    private final Object boss;
+    public Boss(Object boss) {
+        this.boss = boss;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Boss)
-            return ((Boss) obj).getId() == id;
+            return ((Boss) obj).getId() == getId();
         return false;
     }
 
+    private Object invoke(String method, Object... params) {
+        try {
+            return boss.getClass().getMethod(method, Arrays.stream(params)
+                    .map(Object::getClass)
+                    .toArray(Class[]::new)
+            ).invoke(boss, params);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignore) { }
+        return null;
+    }
+    private <T> T notNullOrDefault(T obj, T defaultObj) {
+        return obj == null ? defaultObj : obj;
+    }
+
+    public int getId() {
+        return (int) notNullOrDefault(invoke("getId"), 0);
+    }
     public BossData getData() {
-        return new BossData(this);
+        return new BossData(invoke("getData"));
     }
     public LivingEntity getEntity() {
-        final LivingEntity[] result = new LivingEntity[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (LivingEntity) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.GET_ENTITY
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (LivingEntity) invoke("getEntity");
     }
     public void kill() {
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.KILL
-        );
+        invoke("kill");
     }
     public boolean isKilled() {
-        final boolean[] result = new boolean[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (boolean) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.IS_KILLED
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (boolean) notNullOrDefault(invoke("isKilled"), true);
     }
     public Player getLastDamager() {
-        final Player[] result = new Player[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (Player) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.GET_LAST_DAMAGER
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (Player) invoke("getKiller");
     }
     public Phase getCurrentPhase() {
-        final int[] result = new int[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (int) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.GET_CURRENT_PHASE
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return new Phase(this, result[0]);
+        return new Phase(this, invoke("getCurrentPhase"));
     }
     public List<Phase> getPhases() {
-        final List<Integer>[] result = new ArrayList[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (List<Integer>) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.GET_PHASES
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0].stream()
+        return notNullOrDefault((Map<Integer, Object>) invoke("getPhases"), new HashMap<>()).values().stream()
                 .map(x -> new Phase(this, x))
                 .collect(Collectors.toList());
     }
-    public void changePhase(int phaseId) {
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.CHANGE_PHASE,
-                phaseId
-        );
+    public void changePhase(String name) {
+        invoke("changePhase", name, AbilityPlugin.StartReason.PHASE_CHANGING.type);
     }
     public Map<String, Double> getDamageMap() {
-        final Map<String, Double>[] result = new Map[1];
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                data -> result[0] = (Map<String, Double>) data[0]
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                id,
-                0,
-                Packet.API.BOSS,
-                Packet.API.Boss.GET_DAMAGE_MAP
-        );
-        AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                QuantumInterface.DEFAULT_LISTENER
-        );
-        return result[0];
+        return (Map<String, Double>) invoke("getDamageMap");
     }
     public BossDeathType getDeathType() {
-            final BossDeathType[] result = new BossDeathType[1];
-            AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                    data -> result[0] = BossDeathType.getByType((int) data[0])
-            );
-            AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                    id,
-                    0,
-                    Packet.API.BOSS,
-                    Packet.API.Boss.GET_DEATH_TYPE
-            );
-            AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
+        return BossDeathType.getByType((int) notNullOrDefault(invoke("getDeathType"), -1));
     }
     public BossSpawnType getSpawnType() {
-            final BossSpawnType[] result = new BossSpawnType[1];
-            AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                    data -> result[0] = BossSpawnType.getByType((int) data[0])
-            );
-            AbilityPlugin.getInstance().getQuantumInterface().sendAPIPacket(
-                    id,
-                    0,
-                    Packet.API.BOSS,
-                    Packet.API.Boss.GET_SPAWN_TYPE
-            );
-            AbilityPlugin.getInstance().getQuantumInterface().setListener(
-                    QuantumInterface.DEFAULT_LISTENER
-            );
-            return result[0];
+        return BossSpawnType.getByType((int) notNullOrDefault(invoke("getSpawnType"), -1));
     }
 }
