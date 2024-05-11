@@ -12,8 +12,6 @@ public abstract class AbilityPlugin {
     public final Logger getLogger() { return null; }
     public final String getName() { return null; }
 
-    public AbilityPlugin(String name, Boss boss, Phase phase, FileConfiguration bossConfig, ConfigurationSection abilityConfig) { }
-
     public void onLoad() { }
     public void start(StartReason reason) { }
     public void stop(StopReason reason) { }
