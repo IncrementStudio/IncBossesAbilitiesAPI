@@ -1,7 +1,8 @@
-package ru.incrementstudio.incbosses.api;
+package ru.incrementstudio.incbosses.api.bosses;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
+import ru.incrementstudio.incbosses.api.bosses.phases.PhaseData;
 
 import java.util.List;
 
@@ -15,10 +16,6 @@ public interface BossData {
     boolean isGlowing();
     boolean isBaby();
     List<PhaseData> getPhaseDatas();
-    ItemStack getMainHand();
-    ItemStack getOffHand();
-    ItemStack getHelmet();
-    ItemStack getChestplate();
-    ItemStack getLeggings();
-    ItemStack getBoots();
+    Equipment getEquipment();
+    ConfigurationSection getConfig();
 }
