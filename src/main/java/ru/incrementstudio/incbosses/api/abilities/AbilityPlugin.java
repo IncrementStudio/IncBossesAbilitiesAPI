@@ -15,7 +15,9 @@ public abstract class AbilityPlugin {
     public Logger getLogger() { return logger; }
 
     private String name;
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     private Boss boss;
     private Phase phase;
